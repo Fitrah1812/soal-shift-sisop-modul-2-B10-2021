@@ -17,6 +17,8 @@ void download();
 void remover();
 void zipur();
 void cekpoto();
+void cekpidio();
+void cekmusik();
 
 int main() {
     //buat waktu
@@ -122,13 +124,14 @@ int main() {
                             //isi
                             // char *argv[] = {"cp", "-a", "./FILM/.","./Fylm/", NULL};
                             // execv("/bin/cp", argv);
-                            glob_t globbuf;
-                            globbuf.gl_offs = 2;
-                            glob("/home/fitraharie/Documents/Praktikum2/FILM/*.mp4", GLOB_DOOFFS, NULL, &globbuf);
-                            glob("/home/fitraharie/Documents/Praktikum2/Fylm/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
-                            globbuf.gl_pathv[0] = "cp";
-                            globbuf.gl_pathv[1] = "-r";
-                            execvp("cp", &globbuf.gl_pathv[0]);
+                            // glob_t globbuf;
+                            // globbuf.gl_offs = 2;
+                            // glob("/home/fitraharie/Documents/Praktikum2/FILM/*.mp4", GLOB_DOOFFS, NULL, &globbuf);
+                            // glob("/home/fitraharie/Documents/Praktikum2/Fylm/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
+                            // globbuf.gl_pathv[0] = "cp";
+                            // globbuf.gl_pathv[1] = "-r";
+                            // execvp("cp", &globbuf.gl_pathv[0]);
+                            cekpidio();
                         }
                         else
                         {
@@ -142,14 +145,14 @@ int main() {
                             }
                             if(wat == 0)
                             {
-                                glob_t globbuf;
-                                globbuf.gl_offs = 2;
-                                glob("/home/fitraharie/Documents/Praktikum2/FOTO/*.jpg", GLOB_DOOFFS, NULL, &globbuf);
-                                glob("/home/fitraharie/Documents/Praktikum2/Pyoto/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
-                                globbuf.gl_pathv[0] = "cp";
-                                globbuf.gl_pathv[1] = "-r";
-                                execvp("cp", &globbuf.gl_pathv[0]);
-                                // cekpoto();
+                                // glob_t globbuf;
+                                // globbuf.gl_offs = 2;
+                                // glob("/home/fitraharie/Documents/Praktikum2/FOTO/*.jpg", GLOB_DOOFFS, NULL, &globbuf);
+                                // glob("/home/fitraharie/Documents/Praktikum2/Pyoto/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
+                                // globbuf.gl_pathv[0] = "cp";
+                                // globbuf.gl_pathv[1] = "-r";
+                                // execvp("cp", &globbuf.gl_pathv[0]);
+                                cekpoto();
                             }
                             else
                             {
@@ -166,13 +169,15 @@ int main() {
                                 {
                                     // char *argv[] = {"cp", "-a", "./MUSIK/.","./Musyik/", NULL};
                                     // execv("/bin/cp", argv);
-                                    glob_t globbuf;
-                                    globbuf.gl_offs = 2;
-                                    glob("/home/fitraharie/Documents/Praktikum2/MUSIK/*.mp3", GLOB_DOOFFS, NULL, &globbuf);
-                                    glob("/home/fitraharie/Documents/Praktikum2/Musyik/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
-                                    globbuf.gl_pathv[0] = "cp";
-                                    globbuf.gl_pathv[1] = "-r";
-                                    execvp("cp", &globbuf.gl_pathv[0]);
+                                    // glob_t globbuf;
+                                    // globbuf.gl_offs = 2;
+                                    // glob("/home/fitraharie/Documents/Praktikum2/MUSIK/*.mp3", GLOB_DOOFFS, NULL, &globbuf);
+                                    // glob("/home/fitraharie/Documents/Praktikum2/Musyik/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
+                                    // globbuf.gl_pathv[0] = "cp";
+                                    // globbuf.gl_pathv[1] = "-r";
+                                    // execvp("cp", &globbuf.gl_pathv[0]);
+                                    cekmusik();
+                                    
                                 }
                                 else
                                 {
@@ -305,17 +310,18 @@ void cekpoto()
 {
     DIR *dp;
     struct dirent *ep;
-    char path[150] = "./FOTO/";
+    char path[150] = "/home/fitraharie/Documents/Praktikum2/FOTO/";
     dp = opendir(path);
     if (dp != NULL)
     {
       while ((ep = readdir (dp))) {
-
         if(strstr(ep->d_name,"jpg")){
-            char dst[150]= "./Pyoto";
+            char dst[150]= "/home/fitraharie/Documents/Praktikum2/Pyoto/";
+            char hoho[200]= "/home/fitraharie/Documents/Praktikum2/FOTO/";
             pid_t mantapu;
             int statese;
             mantapu = fork();
+            strcpy(path, hoho);
             strcat(path, ep->d_name);
             if(mantapu < 0)
             {
@@ -323,18 +329,93 @@ void cekpoto()
             }
             if(mantapu == 0)
             {
-                char *args[]={"mv", "-T", path, dst, NULL};
-                execv("usr/bin/mv", args);
+                char *args[]={"cp", path, dst, NULL};
+                execv("/bin/cp", args);
             }
             else{
                 while((wait(&statese)) > 0);
-                //bisa isi;
+                int LENGTH = strlen(path);
+                memset(path,0,LENGTH);
             }
         }
       }
       (void) closedir (dp);
     } else perror ("Couldn't open the directory");
-
     return 0;
+}
 
+void cekpidio()
+{
+    DIR *dp;
+    struct dirent *ep;
+    char path[150] = "/home/fitraharie/Documents/Praktikum2/FILM/";
+    dp = opendir(path);
+    if (dp != NULL)
+    {
+      while ((ep = readdir (dp))) {
+        if(strstr(ep->d_name,"mp4")){
+            char dst[150]= "/home/fitraharie/Documents/Praktikum2/Fylm/";
+            char hoho[200]= "/home/fitraharie/Documents/Praktikum2/FILM/";
+            pid_t mantapu;
+            int statese;
+            mantapu = fork();
+            strcpy(path, hoho);
+            strcat(path, ep->d_name);
+            if(mantapu < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if(mantapu == 0)
+            {
+                char *args[]={"cp", path, dst, NULL};
+                execv("/bin/cp", args);
+            }
+            else{
+                while((wait(&statese)) > 0);
+                int LENGTH = strlen(path);
+                memset(path,0,LENGTH);
+            }
+        }
+      }
+      (void) closedir (dp);
+    } else perror ("Couldn't open the directory");
+    return 0;
+}
+
+void cekmusik()
+{
+    DIR *dp;
+    struct dirent *ep;
+    char path[150] = "/home/fitraharie/Documents/Praktikum2/MUSIK/";
+    dp = opendir(path);
+    if (dp != NULL)
+    {
+      while ((ep = readdir (dp))) {
+        if(strstr(ep->d_name,"mp3")){
+            char dst[150]= "/home/fitraharie/Documents/Praktikum2/Musyik/";
+            char hoho[200]= "/home/fitraharie/Documents/Praktikum2/MUSIK/";
+            pid_t mantapu;
+            int statese;
+            mantapu = fork();
+            strcpy(path, hoho);
+            strcat(path, ep->d_name);
+            if(mantapu < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if(mantapu == 0)
+            {
+                char *args[]={"cp", path, dst, NULL};
+                execv("/bin/cp", args);
+            }
+            else{
+                while((wait(&statese)) > 0);
+                int LENGTH = strlen(path);
+                memset(path,0,LENGTH);
+            }
+        }
+      }
+      (void) closedir (dp);
+    } else perror ("Couldn't open the directory");
+    return 0;
 }
