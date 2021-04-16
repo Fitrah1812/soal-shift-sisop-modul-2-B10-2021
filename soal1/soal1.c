@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <glob.h>
 #include <time.h>
+#include <dirent.h>
 
 void download();
 void remover();
@@ -116,8 +117,15 @@ int main() {
                         if(wuhuit == 0 )
                         {
                             //isi
-                            char *argv[] = {"cp", "-a", "./FILM/.","./Fylm/", NULL};
-                            execv("/bin/cp", argv);
+                            // char *argv[] = {"cp", "-a", "./FILM/.","./Fylm/", NULL};
+                            // execv("/bin/cp", argv);
+                            glob_t globbuf;
+                            globbuf.gl_offs = 2;
+                            glob("/home/fitraharie/Documents/Praktikum2/FILM/*.mp4", GLOB_DOOFFS, NULL, &globbuf);
+                            glob("/home/fitraharie/Documents/Praktikum2/Fylm/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
+                            globbuf.gl_pathv[0] = "cp";
+                            globbuf.gl_pathv[1] = "-r";
+                            execvp("cp", &globbuf.gl_pathv[0]);
                         }
                         else
                         {
@@ -152,8 +160,15 @@ int main() {
                                 }
                                 if(gudi == 0)
                                 {
-                                    char *argv[] = {"cp", "-a", "./MUSIK/.","./Musyik/", NULL};
-                                    execv("/bin/cp", argv);
+                                    // char *argv[] = {"cp", "-a", "./MUSIK/.","./Musyik/", NULL};
+                                    // execv("/bin/cp", argv);
+                                    glob_t globbuf;
+                                    globbuf.gl_offs = 2;
+                                    glob("/home/fitraharie/Documents/Praktikum2/MUSIK/*.mp3", GLOB_DOOFFS, NULL, &globbuf);
+                                    glob("/home/fitraharie/Documents/Praktikum2/Musyik/", GLOB_DOOFFS | GLOB_APPEND, NULL, &globbuf);
+                                    globbuf.gl_pathv[0] = "cp";
+                                    globbuf.gl_pathv[1] = "-r";
+                                    execvp("cp", &globbuf.gl_pathv[0]);
                                 }
                                 else
                                 {
@@ -208,7 +223,7 @@ void download(){
         }
         if(mantap1 == 0)
         {
-            execl("/bin/wget", "wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-qO", "Film_for_Stevany.zip", (char *)NULL);
+            execl("/bin/wget", "wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-qO", "Musik_for_Stevany.zip", (char *)NULL);
         }
         else
         {
@@ -222,7 +237,7 @@ void download(){
             }
             if(mantap2 == 0)
             {
-                execl("/bin/wget", "wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-qO", "Musik_for_Stevany.zip", (char *)NULL);
+                execl("/bin/wget", "wget", "--no-check-certificate", "https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-qO", "Film_for_Stevany.zip", (char *)NULL);
             }
             else
             {
