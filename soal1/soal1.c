@@ -17,19 +17,20 @@ void remover();
 void zipur();
 
 int main() {
+    //buat waktu
     char arr[80];
     time_t t_now = time(NULL);
     struct tm waktu = *localtime(&t_now);
     strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
     printf("%s\n", arr);
-    
-    while(strcmp(path,"09-04_16:22")!=0)
+    //cek hasilnya
+    while(strcmp(arr,"09-04_16:22")!=0)
     {
-        sleep(10);
+        sleep(2);
         t_now = time(NULL);
         waktu = *localtime(&t_now);
-        strftime(arr, sizeof(path)-1, "%d-%m_%H:%M", &waktu);
-        printf("%s_%d\n", arr, strcmp(path,"09-04_16:22"));
+        strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
+        printf("%s_%d\n", arr, strcmp(arr,"09-04_16:22"));
     }
     pid_t child_id;
     int status;
@@ -242,11 +243,11 @@ void zipur()
     
     while(strcmp(arr,"09-04_22:22")!=0)
     {
-        sleep(10);
+        sleep(2);
         t_now = time(NULL);
         waktu = *localtime(&t_now);
-        strftime(path, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
-        printf("%s_%d\n", arr, strcmp(path,"09-04_22:22"));
+        strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
+        printf("%s_%d\n", arr, strcmp(arr,"09-04_22:22"));
     }
     pid_t awaliarit;
     int statusir;
