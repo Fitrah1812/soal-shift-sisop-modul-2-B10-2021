@@ -16,22 +16,25 @@
 void download();
 void remover();
 void zipur();
+void cekpoto();
 
 int main() {
     //buat waktu
     char arr[80];
-    time_t t_now = time(NULL);
-    struct tm waktu = *localtime(&t_now);
-    strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
+    //cek time
+    time_t cek = time(NULL);
+    //make timenow
+    struct tm timenow = *localtime(&cek);
+    //strftime biasa
+    strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &timenow);
+    //keluarin jam
     printf("%s\n", arr);
-    //cek hasilnya
     while(strcmp(arr,"09-04_16:22")!=0)
     {
         sleep(2);
-        t_now = time(NULL);
-        waktu = *localtime(&t_now);
-        strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
-        printf("%s_%d\n", arr, strcmp(arr,"09-04_16:22"));
+        cek = time(NULL);
+        timenow = *localtime(&cek);
+        strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &timenow);
     }
     pid_t child_id;
     int status;
@@ -146,6 +149,7 @@ int main() {
                                 globbuf.gl_pathv[0] = "cp";
                                 globbuf.gl_pathv[1] = "-r";
                                 execvp("cp", &globbuf.gl_pathv[0]);
+                                // cekpoto();
                             }
                             else
                             {
@@ -251,18 +255,16 @@ void download(){
 void zipur()
 {
     char arr[80];
-    time_t t_now = time(NULL);
-    struct tm waktu = *localtime(&t_now);
-    strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
+    time_t cek = time(NULL);
+    struct tm timenow = *localtime(&cek);
+    strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &timenow);
     printf("%s\n", arr);
-    
     while(strcmp(arr,"09-04_22:22")!=0)
     {
         sleep(2);
-        t_now = time(NULL);
-        waktu = *localtime(&t_now);
-        strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &waktu);
-        printf("%s_%d\n", arr, strcmp(arr,"09-04_22:22"));
+        cek = time(NULL);
+        timenow = *localtime(&cek);
+        strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &timenow);
     }
     pid_t awaliarit;
     int statusir;
@@ -297,4 +299,42 @@ void remover(){
     {
         while((wait(&statusi)) > 0);
     }
+}
+
+void cekpoto()
+{
+    DIR *dp;
+    struct dirent *ep;
+    char path[150] = "./FOTO/";
+    dp = opendir(path);
+    if (dp != NULL)
+    {
+      while ((ep = readdir (dp))) {
+
+        if(strstr(ep->d_name,"jpg")){
+            char dst[150]= "./Pyoto";
+            pid_t mantapu;
+            int statese;
+            mantapu = fork();
+            strcat(path, ep->d_name);
+            if(mantapu < 0)
+            {
+                exit(EXIT_FAILURE);
+            }
+            if(mantapu == 0)
+            {
+                char *args[]={"mv", "-T", path, dst, NULL};
+                execv("usr/bin/mv", args);
+            }
+            else{
+                while((wait(&statese)) > 0);
+                //bisa isi;
+            }
+        }
+      }
+      (void) closedir (dp);
+    } else perror ("Couldn't open the directory");
+
+    return 0;
+
 }
