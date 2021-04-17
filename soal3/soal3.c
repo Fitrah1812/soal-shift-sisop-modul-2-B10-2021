@@ -76,23 +76,39 @@ void zipping(char folder[]){
 }
 
 void crkillz(){
-    char kill[]={"#!/bin/bash\npkill -f -9 soal3v2\nrm Killer.sh"};
+    char kill[]={"#!/bin/bash\npkill -f -9 soal3\nrm Killer.sh"};
     FILE *killerfile = fopen("Killer.sh", "w+");
     fprintf(killerfile, "%s", kill);
     fclose(killerfile);
 }
 
 void crkillx(){
-    char kill[]={"#!/bin/bash\nid=(`pgrep soal3v2 | awk '{print $1}'`)\nkill ${id[0]}\nrm Killer.sh"};
+    char kill[]={"#!/bin/bash\nid=(`pgrep soal3 | awk '{print $1}'`)\nkill ${id[0]}\nrm Killer.sh"};
     FILE *killerfile = fopen("Killer.sh", "w+");
     fprintf(killerfile, "%s", kill);
     fclose(killerfile);
 }
 
-int main(int argc, char *argv[]){
-    pid_t pid;
+int argcheck(int argc, char *argv[]){
+    if(argc==1){
+        printf("Harus ada argumen -z atau -x\n");
+        return 1;
+    } else if(argc>2){
+        printf("Argumen terlalu banyak\n");
+        return 1;
+    }
     if(!strcmp(argv[1],"-z")) crkillz();
-    if(!strcmp(argv[1],"-x")) crkillx();
+    else if(!strcmp(argv[1],"-x")) crkillx();
+    else{
+        printf("Argumen yang diterima hanya -z dan -x\n");
+        return 1;
+    }
+    return 0;
+}
+
+int main(int argc, char *argv[]){
+    if(argcheck(argc, argv)) return 0;
+    pid_t pid;
     while(1){
         time_t stamp;
         time(&stamp);
