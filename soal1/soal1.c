@@ -38,6 +38,9 @@ int main() {
         timenow = *localtime(&cek);
         strftime(arr, sizeof(arr)-1, "%d-%m_%H:%M", &timenow);
     }
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
     pid_t child_id;
     int status;
     child_id = fork();
