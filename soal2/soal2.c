@@ -168,7 +168,7 @@ void split_name(char name[]){
 //     printf("name: %s\n",pet_name);
 //     printf("age : %s\n",pet_age);
 //     printf("path: %s\n\n",path);
-//     delete_file(name,path);
+    delete_file(name,path);
 }
 
 
