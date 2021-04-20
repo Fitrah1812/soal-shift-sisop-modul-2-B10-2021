@@ -8,6 +8,7 @@ Nama Kelompok :
 
 ## Penjelasan Soal
 **No. 1**
+
 Pada suatu masa, hiduplah seorang Steven yang hidupnya pas-pasan. Steven punya pacar, namun sudah putus sebelum pacaran. Ketika dia galau memikirkan mantan, ia selalu menonton https://www.youtube.com/watch?v=568DH_9CMKI untuk menghilangkan kesedihannya. 
 
 Di lain hal Steven anak yang tidak amat sangat super membenci matkul sisop, beberapa jam setelah diputus oleh pacarnya dia menemukan wanita lain bernama Stevany, namun Stevany berkebalikan dengan Steven karena menyukai sisop. Steven ingin terlihat jago matkul sisop demi menarik perhatian Stevany.
@@ -15,6 +16,10 @@ Di lain hal Steven anak yang tidak amat sangat super membenci matkul sisop, bebe
 Pada hari ulang tahun Stevany, Steven ingin memberikan Stevany zip berisikan hal-hal yang disukai Stevany. Steven ingin isi zipnya menjadi rapi dengan membuat folder masing-masing sesuai extensi. 
 (a) Dikarenakan Stevany sangat menyukai huruf Y, Steven ingin nama folder-foldernya adalah Musyik untuk mp3, Fylm untuk mp4, dan Pyoto untuk jpg 
 Jawaban :
+
+
+![Image1](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1A.jpeg)
+
 
 ``` c 
  if (awal == 0)
@@ -160,6 +165,10 @@ Fungsi cekmusik() diatas berguna untuk mengecek ekstensi dari musik yang diingin
 (b) untuk musik Steven mendownloadnya dari link di bawah, film dari link di bawah lagi, dan foto dari link dibawah juga :). 
 Jawbaan : 
 
+![Image2](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1BA.jpeg)
+
+![Image3](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1BB.jpeg)
+
 ``` c
 else
 {
@@ -221,6 +230,10 @@ Hal diatas merupakan command inti untuk menjawab soal B.
 (c) Steven tidak ingin isi folder yang dibuatnya berisikan zip, sehingga perlu meng-extract-nya setelah didownload serta
 Jawaban :
 
+![Image4](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1CA.jpeg)
+
+![Image5](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1CB.jpeg)
+
 Berikut merupakan proses untuk melakukan unzip dari file-file yang sudah didownload diantaranya Musik_for_Stevany.zip, Photo_for_Stevany.zip dan Film_for_Stevany.zip. Dan Kodingan dibawah merupakan solusi untuk menjawab bagian C.
 
 ``` c 
@@ -274,6 +287,17 @@ else
 
 (d) memindahkannya ke dalam folder yang telah dibuat (hanya file yang dimasukkan).
 Jawaban :
+
+![Image6](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1DA.jpeg)
+
+![Image7](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1DB.jpeg)
+
+![Image8](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1DC.jpeg)
+
+![Image9](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1DD.jpeg)
+
+![Image10](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1DE.jpeg)
+
 
 Berikut Merupakan proses mencari file yang berekstensi sama yaitu untuk foto yaitu .jpg, film yaitu .mp4 dan musik yaitu .mp3. Berikut merupakan program yang dijalankan dan setelah itu program ini mengcopy dari folder yang sudah di unzip ke folder yang telah dibuat. Untuk contohnya dari folder MUSIK dengan ektensi .mp3 ke folder Musyik, folder FILM dengan ekstensi .mp4 ke folder Fylm dan folder FOTO dengan ekstensi .jpg ke folder Pyoto.
 
@@ -407,6 +431,8 @@ void cekmusik()
 (e) Untuk memudahkan Steven, ia ingin semua hal di atas berjalan otomatis 6 jam sebelum waktu ulang tahun Stevany). 
 Jawaban :
 
+![Image11](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1E.jpeg)
+
 
 ``` c 
 //buat waktu
@@ -436,7 +462,12 @@ Kodingan diatas menjawab soal E yang dimana ia ingin berjalan tepat otomatis 6 j
 (f) Setelah itu pada waktu ulang tahunnya Stevany, semua folder akan di zip dengan nama Lopyu_Stevany.zip dan semua folder akan di delete(sehingga hanya menyisakan .zip).
 Jawaban : 
 
+
+
 Berikut merupakan proses zip folder serta remove folder yang diminta di soal f. Setelah itu membuat zip dengan nama Lopyu_Stevany.zip. Kodingan ini melakukan proses pada saat waktu 22:22 pada tanggal 9 April secara otomatis. Kodingan ini menjawab pertanyaan F.
+
+![Image12](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1FA.jpeg)
+
 
 ``` c 
 void zipur()
@@ -475,6 +506,9 @@ void zipur()
 Kodingan diatas merupakan proses untuk zip beberapa folder yaitu folder Fylm, Pyoto, dan Musyik. Dengan catatan pada saat 22:22 pada tanggal 9 April proses tersebut berjalan serta meremove folder FILM, FOTO, MUSIK, Fylm, Pyoto, dan Musyik.
 
 
+![Image13](https://github.com/Fitrah1812/soal-shift-sisop-modul-2-B10-2021/blob/main/Dokumentasi/Nomor1FB.jpeg)
+
+
 ```c
 void remover(){
     pid_t awaliari;
@@ -499,7 +533,6 @@ Setelah dilakukan proses zip maka diminta untuk remove folder FILM, FOTO, MUSIK,
 
 
 Kendala : Pada saat penyelesaian permasalahan ini terdapat bingung pada saat penggunaan exec, serta lebih mendalami fork dengan memperhitungkan proses child dan parentnya.
-
 
 
 
