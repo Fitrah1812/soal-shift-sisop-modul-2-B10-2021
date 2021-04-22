@@ -789,7 +789,11 @@ void delete_jpg(char *str, char *substr){
         // return pos;
     }
 }
-```
+```  
+Hasil dari berjalannya fungsi untuk membuat keterangan :  
+![image](https://user-images.githubusercontent.com/55240758/115716774-bbc24580-a3a3-11eb-8a07-66ed949a0dd5.png)
+  
+  
 Setelah seluruh poin terlaksana, langkah terakhir yang saya lakukan yaitu menghapus file-file foto yang berada diluar folder kategori tipe hewan. Hal tersebut terjadi, dikarenakan pada saat pemindahan file, saya menggunakan perintah copy "cp" melalui execv. Oleh karena itu dapat diketahui bahwa file yang berda di dalam folder ketegori tipe hewan merupakan hasil copyan dari file utama yang berada diluar folder kategori. Sehingga dilakukan penghapusan file yang berada diluar folder kategori melalui fungsi :  
 
 ***Fungsi Hapus File***  | untuk menghapus file yang berada diluar folder kategori tipe hewan
