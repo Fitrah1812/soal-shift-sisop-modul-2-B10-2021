@@ -543,3 +543,198 @@ Kendala : Pada saat penyelesaian permasalahan ini terdapat bingung pada saat pen
 
 
 **No. 3**
+
+Ranora adalah mahasiswa Teknik Informatika yang saat ini sedang menjalani magang di perusahan ternama yang bernama “FakeKos Corp.”, perusahaan yang bergerak dibidang keamanan data. Karena Ranora masih magang, maka beban tugasnya tidak sebesar beban tugas pekerja tetap perusahaan. Di hari pertama Ranora bekerja, pembimbing magang Ranora memberi tugas pertamanya untuk membuat sebuah program.
+
+A. Ranora harus membuat sebuah program C yang dimana setiap 40 detik membuat sebuah direktori dengan nama sesuai timestamp [YYYY-mm-dd_HH:ii:ss].
+B. Setiap direktori yang sudah dibuat diisi dengan 10 gambar yang didownload dari https://picsum.photos/, dimana setiap gambar akan didownload setiap 5 detik. Setiap gambar yang didownload akan diberi nama dengan format timestamp [YYYY-mm-dd_HH:ii:ss] dan gambar tersebut berbentuk persegi dengan ukuran (n%1000) + 50 pixel dimana n adalah detik Epoch Unix.
+C. Setelah direktori telah terisi dengan 10 gambar, program tersebut akan membuat sebuah file “status.txt”, dimana didalamnya berisi pesan “Download Success” yang terenkripsi dengan teknik Caesar Cipher dan dengan shift 5. Caesar Cipher adalah Teknik enkripsi sederhana yang dimana dapat melakukan enkripsi string sesuai dengan shift/key yang kita tentukan. Misal huruf “A” akan dienkripsi dengan shift 4 maka akan menjadi “E”. Karena Ranora orangnya perfeksionis dan rapi, dia ingin setelah file tersebut dibuat, direktori akan di zip dan direktori akan didelete, sehingga menyisakan hanya file zip saja.
+D. Untuk mempermudah pengendalian program, pembimbing magang Ranora ingin program tersebut akan men-generate sebuah program “Killer” yang executable, dimana program tersebut akan menterminasi semua proses program yang sedang berjalan dan akan menghapus dirinya sendiri setelah program dijalankan. Karena Ranora menyukai sesuatu hal yang baru, maka Ranora memiliki ide untuk program “Killer” yang dibuat nantinya harus merupakan program bash.
+E. Pembimbing magang Ranora juga ingin nantinya program utama yang dibuat Ranora dapat dijalankan di dalam dua mode. Untuk mengaktifkan mode pertama, program harus dijalankan dengan argumen -z, dan Ketika dijalankan dalam mode pertama, program utama akan langsung menghentikan semua operasinya Ketika program Killer dijalankan. Sedangkan untuk mengaktifkan mode kedua, program harus dijalankan dengan argumen -x, dan Ketika dijalankan dalam mode kedua, program utama akan berhenti namun membiarkan proses di setiap direktori yang masih berjalan hingga selesai (Direktori yang sudah dibuat akan mendownload gambar sampai selesai dan membuat file txt, lalu zip dan delete direktori).
+
+Jawaban :
+
+Untuk program utama dari permasalahan ini seperti ini
+```c
+int soal3(){
+    pid_t pid;
+    while(1){
+        time_t stamp;
+        time(&stamp);
+        char folder[40];
+        strftime(folder, 80, "%Y-%m-%d_%H:%M:%S", localtime(&stamp));
+        pid=fork();
+        if(pid<0) exit(EXIT_FAILURE);
+        if(pid==0) crdir(folder);
+        pid=fork();
+        if(pid<0) exit(EXIT_FAILURE);
+        if(pid==0){
+            donlot(stamp, folder);
+            crlog(folder);
+            zipping(folder);
+        }
+        sleep(40);
+    }
+}
+```
+Program utama tersebut dimasukkan ke dalam program daemon agar bisa berjalan di background seperti ini
+```c
+int main(int argc, char *argv[]) {
+  if(argcheck(argc, argv)) return 0;
+  int this_pid = (int)getpid();
+
+    pid_t pid, sid;
+    pid = fork();
+
+    if (pid < 0)
+        exit(EXIT_FAILURE);
+    if (pid > 0)
+        exit(EXIT_SUCCESS);
+    
+    umask(0);
+    sid = setsid();
+
+    if (sid < 0)
+        exit(EXIT_FAILURE);
+    if ((chdir("/home/detechtive/")) < 0)
+        exit(EXIT_FAILURE);
+    
+    close(STDIN_FILENO);
+    close(STDOUT_FILENO);
+    close(STDERR_FILENO);
+
+    while (1) {
+        soal3();
+    }
+}
+```
+Untuk permasalahan A, membuat folder setiap 40 detik sekali. Di program utama tadi ada sleep(40) agar tiap 40 detik. Untuk membuat programnya, saya membua fungsi seperti di bawah
+```c
+void crdir(char folder[]){
+    char *argv[]={"mkdir", folder, NULL};
+    execv("/bin/mkdir", argv);
+}
+```
+Untuk nama folder tersebut diambil dari program utama tadi. Menggunakan library bahasa c, time.h, mengambil formatnya dari localtime() dengan format %Y-%m-%d_%H:%M:%S.
+Agar bisa berjalan sendiri dan bisa mengulangi tiap 40 detik, saya menggunakan proses tersendiri dengan fork tersediri. Untuk permasallahan yang lain, dijadikan dalam satu proses.
+
+Untuk permasalahan B, programnya seperti ini
+```c
+void donlot(time_t stamp, char folder[]){
+    char pictures[40], link[40], path[80];
+    int i;
+    for(i=0;i<10;i++){
+        time(&stamp);
+        strftime(pictures, 80, "%Y-%m-%d_%H:%M:%S", localtime(&stamp));
+        strcat(pictures,".jpg");
+        sprintf(path, "%s/%s", folder, pictures);
+        sprintf(link, "https://picsum.photos/%d", ((int)time(NULL))%1000+50);
+        pid_t pid;
+        pid=fork();
+        if(pid<0) exit(EXIT_FAILURE);
+        if(pid==0){
+            char *argv[]={"wget", "-q", link, "-O", path, NULL};
+            execv("/bin/wget", argv);
+        }
+        sleep(5);
+    }
+}
+```
+Agar namanya bisa sesuai dengan waktu downloadnya, seperti pembuatan folder tadi, menggunakan localtme(). Agar downloadnya bisa masuk ke folder tanpa chdir, saya menggunakan path untuk itu. Downloadnya menggunakan wget, dan option -q untuk menghilangkan log di terminal, dan -O untuk penamaan dan path direktorinya. Untuk masalah yang tiap 5 detik menggunakan fungsi sleep(5)
+
+Untuk permasalahan C, membuat log dan mengubah isinya dengan chiper +5, programnya seperti di bawah ini
+```c
+void crlog(char folder[]){
+    char statuslog[]={"Download Success"};
+    char path[40];
+    sprintf(path, "%s/status.txt", folder);
+    caesar(statuslog,5);
+    FILE *statusfile = fopen(path, "w+");
+    fprintf(statusfile,"%s",statuslog);
+    fclose(statusfile);
+}
+```
+Dan untuk program Caesar Cipher seperti dibawah
+```c
+void caesar(char message[],int key){
+    int i;
+    char ch;
+    for(i = 0; message[i] != '\0'; ++i){
+		ch = message[i];
+		
+		if(ch >= 'a' && ch <= 'z'){
+			ch = ch + key;
+			
+			if(ch > 'z'){
+				ch = ch - 'z' + 'a' - 1;
+			}
+			
+			message[i] = ch;
+		}
+		else if(ch >= 'A' && ch <= 'Z'){
+			ch = ch + key;
+			
+			if(ch > 'Z'){
+				ch = ch - 'Z' + 'A' - 1;
+			}
+			
+			message[i] = ch;
+		}
+	}
+}
+```
+Untuk menggunakan fopen untuk membuat filenya, fprintf untuk menulis teksnya ke dalam filenya. Sebelum teksnya dimasukkan, diubah dengan Caesar Cipher terlebih dahulu. Dari "Download Success" menjadi "Itbsqtfi Xzhhjxx"
+Setelah membuat file log, kemudian membuat zip dengan folder tersebut dan semua isinya, seperti di bawah ini
+```c
+void zipping(char folder[]){
+    char zipname[40];
+    sprintf(zipname, "%s.zip", folder);
+    char *argv[]={"zip", "-qq", "-m", "-r", zipname, folder, NULL};
+    execv("/bin/zip", argv);
+}
+```
+Menggunakan perintah zip dengan option -qq untuk menghilangkan log dari terminal, -m agar file setelah melakukan zip terhapus, dan -r untuk rekrusif agar semua yang ada di dalam folder tersebut.
+
+Untuk permasalahan D dan E, membuat file Killer.sh dan agar membuat programnya menjadi 2 mode program untuk membuat file killernya seperti di bawah
+```c
+void crkillz(){
+    char kill[]={"#!/bin/bash\npkill -f -9 soal3\nrm Killer.sh"};
+    FILE *killerfile = fopen("Killer.sh", "w+");
+    fprintf(killerfile, "%s", kill);
+    fclose(killerfile);
+}
+
+void crkillx(){
+    char kill[]={"#!/bin/bash\nid=(`pgrep soal3 | awk '{print $1}'`)\nkill ${id[0]}\nrm Killer.sh"};
+    FILE *killerfile = fopen("Killer.sh", "w+");
+    fprintf(killerfile, "%s", kill);
+    fclose(killerfile);
+}
+```
+crkillz untuk mode -z dan crkillx untuk mode -x. Untuk mode z, saya membuatnya untuk membunuh semua proses yang behubungan dengan program ini dengan sinyal -9 yang berarti SIGKILL. Untuk mode -x, saya hanya menterminate proses utamnya saja, agar proses yang lain bisa berjalan hinnga selesai. Untuk mendapatkan PID dari program utamnya di sini saya menggunakan pgrep untuk mencari semua PID yang berhubungan dengan program ini, dan menyimpannya kedalam array menggunakan awk. Kemudian saya menterminate array indeks pertama karena itu adalah PID dari proses program utama. Untuk menghapus program ini setelah dijalankan kedua program ini memiliki perintah rm.
+Untuk penyesuaian dari modenya, saya menggunakan check argumen dari program ini sebelum menjalankan programnya, bisa dilihat seperti dibawah
+```c
+int argcheck(int argc, char *argv[]){
+    if(argc==1){
+        printf("Harus ada argumen -z atau -x\n");
+        return 1;
+    } else if(argc>2){
+        printf("Argumen terlalu banyak\n");
+        return 1;
+    }
+    if(!strcmp(argv[1],"-z")) crkillz();
+    else if(!strcmp(argv[1],"-x")) crkillx();
+    else{
+        printf("Argumen yang diterima hanya -z dan -x\n");
+        return 1;
+    }
+    return 0;
+}
+```
+Pada program utama tadi sebelum program berjalan dilakuka check
+```c
+if(argcheck(argc, argv)) return 0;
+```
+Jika tidak memenuhi maka program akan langsung berhenti tanpa menjalankan perintah dibawahnya. Jika tidak ada argumen yang dimasukkan, argumen yang dimasukkan terlalu banyak, atau argumen yang dimasukkan berbeda dari yang diminta, maka akan mengembalikan nilai true, sehingga program akan langsung berhenti. Jika argumen yang diamsukkan adalah -z, maka crkillz yang akan dijalankan, jika -x, maka crkillx yang djilakan. untuk checkignya menggunakan strcmp untuk membandingkan 2 string.
+
+Kendala yang saya alami selama menyelesaikan masalah ini adalah pada pembuatan Killer.sh, terutama untuk perintah -x, saya kebingunan cara apa yang akan saya gunakan. Selain itu juga untuk membuat folder setiap 40 detik, sedangkan total durasi dari proses download adalah 50 detik. Sehingga harus ada proses yang berjalan secara bersamaan.
