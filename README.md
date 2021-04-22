@@ -537,15 +537,16 @@ Kendala : Pada saat penyelesaian permasalahan ini terdapat bingung pada saat pen
 
 
 
-**No. 2**
-Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya
-
+**No. 2**  
+  
+Loba bekerja di sebuah petshop terkenal, suatu saat dia mendapatkan zip yang berisi banyak sekali foto peliharaan dan Ia diperintahkan untuk mengkategorikan foto-foto peliharaan tersebut. Loba merasa kesusahan melakukan pekerjaanya secara manual, apalagi ada kemungkinan ia akan diperintahkan untuk melakukan hal yang sama. Kamu adalah teman baik Loba dan Ia meminta bantuanmu untuk membantu pekerjaannya  
+  
 A. Pertama-tama program perlu mengextract zip yang diberikan ke dalam folder “/home/[user]/modul2/petshop”. Karena bos Loba teledor, dalam zip tersebut bisa berisi folder-folder yang tidak penting, maka program harus bisa membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folder-folder yang tidak dibutuhkan.  
 B. Foto peliharaan perlu dikategorikan sesuai jenis peliharaan, maka kamu harus membuat folder untuk setiap jenis peliharaan yang ada dalam zip. Karena kamu tidak mungkin memeriksa satu-persatu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi zip.  
 C. Setelah folder kategori berhasil dibuat, programmu akan memindahkan foto ke folder dengan kategori yang sesuai dan di rename dengan nama peliharaan. Contoh: “/petshop/cat/joni.jpg”.  
 D. Karena dalam satu foto bisa terdapat lebih dari satu peliharaan maka foto harus di pindah ke masing-masing kategori yang sesuai. Contoh: foto dengan nama “dog;baro;1_cat;joni;2.jpg” dipindah ke folder “/petshop/cat/joni.jpg” dan “/petshop/dog/baro.jpg”.  
 E. Di setiap folder buatlah sebuah file "keterangan.txt" yang berisi nama dan umur semua peliharaan dalam folder tersebut.Format harus sesuai contoh.  
-
+  
 ![image](https://user-images.githubusercontent.com/55240758/115696819-37fd5e80-a38d-11eb-87e4-9a961c62aa7b.png)  
 
 
@@ -823,7 +824,10 @@ void delete_file(char name[], char path[]){
     }
 }
 ```
-
+  
+Kendala yang saya alami yaitu pada saat merumuskan tahapan program dimana pada mulanya saya tidak menggunakan directory listing, sehingga saya kebingungan untuk mendapatkan nama dari file tersebut. Selain itu kendala yang saya alami saat pengerjaan program ini adalah linux saya yang sering error yang menyebabkan selama beberapa kali saya memrogram ulang dari awal untuk pengerjaan soal ini. Hingga menginstall ulang linux.
+  
+  
 **No. 3**
 
 Ranora adalah mahasiswa Teknik Informatika yang saat ini sedang menjalani magang di perusahan ternama yang bernama “FakeKos Corp.”, perusahaan yang bergerak dibidang keamanan data. Karena Ranora masih magang, maka beban tugasnya tidak sebesar beban tugas pekerja tetap perusahaan. Di hari pertama Ranora bekerja, pembimbing magang Ranora memberi tugas pertamanya untuk membuat sebuah program.
@@ -993,7 +997,7 @@ void crkillx(){
     fclose(killerfile);
 }
 ```
-crkillz untuk mode -z dan crkillx untuk mode -x. Untuk mode z, saya membuatnya untuk membunuh semua proses yang behubungan dengan program ini dengan sinyal -9 yang berarti SIGKILL. Untuk mode -x, saya hanya menterminate proses utamnya saja, agar proses yang lain bisa berjalan hinnga selesai. Untuk mendapatkan PID dari program utamnya di sini saya menggunakan pgrep untuk mencari semua PID yang berhubungan dengan program ini, dan menyimpannya kedalam array menggunakan awk. Kemudian saya menterminate array indeks pertama karena itu adalah PID dari proses program utama. Untuk menghapus program ini setelah dijalankan kedua program ini memiliki perintah rm.
+crkillz untuk mode -z dan crkillx untuk mode -x. Untuk mode z, saya membuatnya untuk membunuh semua proses yang behubungan dengan program ini dengan sinyal -9 yang berarti SIGKILL. Untuk mode -x, saya hanya menterminate proses utamnya saja, agar proses yang lain bisa berjalan hingga selesai. Untuk mendapatkan PID dari program utamnya di sini saya menggunakan pgrep untuk mencari semua PID yang berhubungan dengan program ini, dan menyimpannya kedalam array menggunakan awk. Kemudian saya menterminate array indeks pertama karena itu adalah PID dari proses program utama. Untuk menghapus program ini setelah dijalankan kedua program ini memiliki perintah rm.
 Untuk penyesuaian dari modenya, saya menggunakan check argumen dari program ini sebelum menjalankan programnya, bisa dilihat seperti dibawah
 ```c
 int argcheck(int argc, char *argv[]){
